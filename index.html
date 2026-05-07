@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <title>Kasir Warung Mini</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+        max-width: 400px;
+      }
+      .card {
+        border: 1px solid #ccc;
+        padding: 15px;
+        border-radius: 8px;
+      }
+      input {
+        width: 90%;
+        padding: 8px;
+        margin-bottom: 10px;
+      }
+      button {
+        padding: 10px;
+        width: 100%;
+        background: blue;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+      .total-box {
+        margin-top: 20px;
+        padding: 10px;
+        background: #eee;
+        font-weight: bold;
+        text-align: center;
+      }
+      .diskon {
+        color: green;
+        font-size: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h2>🛒 Kasir Warung Mini</h2>
+
+      <form id="formKasir">
+        <input
+          type="text"
+          id="namaBarang"
+          placeholder="Nama Barang (Cth: Sabun)"
+          required
+        />
+        <input
+          type="number"
+          id="hargaBarang"
+          placeholder="Harga (Cth: 5000)"
+          required
+        />
+        <button type="submit">Tambah ke Keranjang</button>
+      </form>
+
+      <hr />
+
+      <h3>Daftar Belanja:</h3>
+      <ul id="daftarBelanja"></ul>
+
+      <div class="total-box">
+        <p>Total: Rp <span id="totalHarga">0</span></p>
+        <p id="pesanDiskon" class="diskon"></p>
+      </div>
+    </div>
+
+    <script>
+      const formKasir = document.getElementById("formKasir");
+      const namaBarang = document.getElementById("namaBarang");
+      const hargaBarang = document.getElementById("hargaBarang");
+      const daftarBelanja = document.getElementById("daftarBelanja");
+      const totalHarga = document.getElementById("totalHarga");
+      const pesanDiskon = document.getElementById("pesanDiskon");
+
+      let total = 0;
+
+      formKasir.addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        // Ambil data input
+        const nama = namaBarang.value;
+        const harga = parseInt(hargaBarang.value);
+
+        const item = document.createElement("li");
+        item.textContent = `${nama} - Rp ${harga.toLocaleString("id-ID")}`;
+
+        daftarBelanja.appendChild(item);
+
+        total += harga;
+
+        let totalAkhir = total;
+
+        if (total >= 500000) {
+          const diskon = total * 0.1;
+          totalAkhir = total - diskon;
+
+          pesanDiskon.innerHTML =
+            "🎉 yeayyy Selamat! Anda mendapatkan diskon 10%";
+        } else {
+          pesanDiskon.innerHTML = "";
+        }
+
+        totalHarga.textContent = totalAkhir.toLocaleString("id-ID");
+
+        formKasir.reset();
+      });
+    </script>
+  </body>
+</html>
